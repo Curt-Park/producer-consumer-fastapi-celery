@@ -2,9 +2,12 @@
 """Send requests to the API server asynchronously."""
 import argparse
 import asyncio
+import sys
 import time
 
 import aiohttp
+
+sys.path.append("src")
 
 parser = argparse.ArgumentParser(description="Client Test")
 parser.add_argument(

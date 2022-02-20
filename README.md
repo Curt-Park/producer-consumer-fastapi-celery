@@ -42,7 +42,7 @@ http://0.0.0.0:8000/produce
 Sending a number of requests simultaneously.
 
 ```bash
-$ python client.py --n-req [N_REQUSTS]
+$ python src/client.py --n-req [N_REQUSTS]
 ```
 
 #### Dashboard for Celery (Flower)

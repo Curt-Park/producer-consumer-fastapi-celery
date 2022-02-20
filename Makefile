@@ -10,22 +10,22 @@ setup:
 	pip install -r requirements-pip.txt  # separated for M1 chips
 
 broker:
-	docker run -d -p 6379:6379 redis
+	redis-server
 
-workers:
+worker:
 	# auto-restart for script modifications
-	watchmedo auto-restart \
+	PYTHONPATH=src watchmedo auto-restart \
 		--directory=worker \
 		--pattern=*.py \
 		--recursive -- \
 		celery -A src.worker.celery worker -P gevent -c 1000 -l INFO
 
-apis:
-	uvicorn src.api.server:app --reload --host 0.0.0.0 --port 8000
+api:
+	PYTHONPATH=src uvicorn src.api.server:app --reload --host 0.0.0.0 --port 8000
 
 dashboard:
 	sh -c "./wait_for_workers.sh"
-	celery -A src.worker.celery flower --port=5555
+	PYTHONPATH=src celery -A src.worker.celery flower --port=5555
 
 
 # For developers
