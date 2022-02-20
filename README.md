@@ -30,8 +30,8 @@ $ docker-compose up
 You can start up additional workers on other devices.
 
 ```bash
-$ export BROKER_URL=redis://api-server-ip:6379
-$ export BACKEND_URL=redis://api-server-ip:6379
+$ export BROKER_URL=redis://redis-broker-ip:6379
+$ export BACKEND_URL=redis://redis-backend-ip:6379
 $ make worker
 ```
 
