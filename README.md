@@ -1,44 +1,56 @@
-# Python Project Template
-This repository is a python template repo for internal uses of Annotation-AI.
+# A producer-consumer example with FastAPI and Celery.
 
-## File Structure
+## How to play
+
+#### Server (Option 1 - On your Local)
+Install [Redis](https://redis.io/topics/quickstart), and run the following commands:
+
 ```bash
-.
-├── LICENSE
-├── Makefile          # commands
-├── README.md
-├── requirements.txt  # package information
-├── setup.cfg         # configurations for formatting & linting & unit-test
-├── src               # source code location
-└── test
-    └── utest         # unit tests location
+$ make env        # create a conda environment (need only once)
+$ conda activate producer-consumer-fastapi-celery  # activate the env
+$ make setup      # setup packages (need only once)
+$
+$ make broker     # run redis broker
+$ make worker     # run celery worker
+$ make api        # run fastapi server
+$ make dashboard  # run dashboard that monitors celery
 ```
 
-## Commands
+#### Server (Option 2 - Docker Compose)
+Install [Docker](https://docs.docker.com/engine/install/) & [Docker Compose](https://docs.docker.com/compose/install/),
+and run the following command:
+
 ```bash
-$ make env      # create anaconda environment
-$ make setup    # initial setup for the project
-$ make format   # format python scripts
-$ make lint     # lint python scripts
-$ make utest    # run unit tests
-$ make cov      # open coverage report (after `make utest`)
+$ docker-compose up
 ```
 
-## Configurations
-`setup.cfg` states all configurations for formatting & linting & unit-test.
+#### [Optional] Additional Workers
+You can start up additional workers on other devices.
 
-## Verifications
-- per commit: pre-commit hook runs formatting and linting.
-- per pull-request: GitHub Actions check formatting, linting, and unit-test results.
+```bash
+$ export BROKER_URL=redis://api-server-ip:6379
+$ export BACKEND_URL=redis://api-server-ip:6379
+$ make workers
+```
 
-## Recommended Repository Settings
-#### Restriction on multi-commit pushes
-`Settings` -> `General` -> `Merge botton` -> `Allow squash merging` ONLY
-<img width="796" src="https://user-images.githubusercontent.com/14961526/152031596-a329a74c-add7-4d1c-ada5-d0279da16195.png">
+#### Client
 
-#### Branch Protection Rules
-`Settings` -> `Branches` -> `Branch protection rules` -> `Add rule`
-- Branch name pattern: `main`
-- Require a pull request before merging & Require approvals
-- Require status checks to pass before merging & Require branches to be up to date before merging
-- Include administrators
+#### Option 1: In WebBrowser
+http://0.0.0.0:8000/produce
+
+#### Option 2: Test Client
+Sending a number of requests simultaneously.
+
+```bash
+$ python src/client.py --n-req [N_REQUSTS]
+```
+
+#### Dashboard for Celery (Flower)
+http://0.0.0.0:5555/
+![image](https://user-images.githubusercontent.com/14961526/154842930-70c54154-cf94-4368-bd46-fa43bd232d35.png)
+
+
+## Issue Handling
+
+#### Redis Error 8 connecting localhost:6379. nodename nor servname provided, or not known.
+`$ ulimit -n 1024`
