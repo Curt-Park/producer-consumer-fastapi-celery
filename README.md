@@ -47,6 +47,8 @@ $ python client.py --n-req [N_REQUSTS]
 
 #### Dashboard for Celery (Flower)
 http://0.0.0.0:5555/
+![image](https://user-images.githubusercontent.com/14961526/154842930-70c54154-cf94-4368-bd46-fa43bd232d35.png)
+
 
 ## Issue Handling
 
