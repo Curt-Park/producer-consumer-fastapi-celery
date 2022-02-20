@@ -13,19 +13,14 @@ broker:
 	redis-server
 
 worker:
-	# auto-restart for script modifications
-	PYTHONPATH=src watchmedo auto-restart \
-		--directory=worker \
-		--pattern=*.py \
-		--recursive -- \
-		celery -A src.worker.celery worker -P gevent -c 1000 -l INFO
+	PYTHONPATH=src celery -A worker.celery worker -P gevent -c 1000 -l INFO
 
 api:
-	PYTHONPATH=src uvicorn src.api.server:app --reload --host 0.0.0.0 --port 8000
+	PYTHONPATH=src uvicorn api.server:app --reload --host 0.0.0.0 --port 8000
 
 dashboard:
 	sh -c "./wait_for_workers.sh"
-	PYTHONPATH=src celery -A src.worker.celery flower --port=5555
+	PYTHONPATH=src celery -A worker.celery flower --port=5555
 
 
 # For developers

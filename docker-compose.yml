@@ -6,10 +6,10 @@ services:
     ports:
       - 6379:6379
 
-  workers:
+  worker:
     build: .
-    image: 03_fastapi
-    command: make workers
+    image: producer-consumer
+    command: make worker
     volumes:
       - .:/app
     environment:
@@ -18,12 +18,12 @@ services:
     depends_on:
       - redis
 
-  apis:
+  api:
     build: .
-    image: 03_fastapi
+    image: producer-consumer
     ports:
       - 8000:8000
-    command: make apis
+    command: make api
     volumes:
       - .:/app
     environment:
@@ -31,11 +31,11 @@ services:
       - BACKEND_URL=redis://redis:6379/0
     depends_on:
       - redis
-      - workers
+      - worker
 
   dashboard:
     build: .
-    image: 03_fastapi
+    image: producer-consumer
     ports:
       - 5555:5555
     command: make dashboard
@@ -46,4 +46,4 @@ services:
       - BACKEND_URL=redis://redis:6379/0
     depends_on:
       - redis
-      - workers
+      - worker
