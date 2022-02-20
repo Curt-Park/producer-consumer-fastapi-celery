@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+
+  workers:
+    build: .
+    image: 03_fastapi
+    command: make workers
+    volumes:
+      - .:/app
+    environment:
+      - BROKER_URL=redis://redis:6379/0
+      - BACKEND_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+
+  apis:
+    build: .
+    image: 03_fastapi
+    ports:
+      - 8000:8000
+    command: make apis
+    volumes:
+      - .:/app
+    environment:
+      - BROKER_URL=redis://redis:6379/0
+      - BACKEND_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+      - workers
+
+  dashboard:
+    build: .
+    image: 03_fastapi
+    ports:
+      - 5555:5555
+    command: make dashboard
+    volumes:
+      - .:/app
+    environment:
+      - BROKER_URL=redis://redis:6379/0
+      - BACKEND_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+      - workers

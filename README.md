@@ -1,44 +1,47 @@
-# Python Project Template
-This repository is a python template repo for internal uses of Annotation-AI.
-
-## File Structure
+## Preparation
 ```bash
-.
-├── LICENSE
-├── Makefile          # commands
-├── README.md
-├── requirements.txt  # package information
-├── setup.cfg         # configurations for formatting & linting & unit-test
-├── src               # source code location
-└── test
-    └── utest         # unit tests location
+$ docker-compose up
 ```
 
-## Commands
+## How to play
+
+#### How to Run 1: In WebBrowser
+http://0.0.0.0:8000/produce
+
+#### How to Run 2: test client
+Sending a number of requests simultaneously.
+
+Test Run:
 ```bash
-$ make env      # create anaconda environment
-$ make setup    # initial setup for the project
-$ make format   # format python scripts
-$ make lint     # lint python scripts
-$ make utest    # run unit tests
-$ make cov      # open coverage report (after `make utest`)
+$ python client.py --n-req [N_REQUSTS]
 ```
 
-## Configurations
-`setup.cfg` states all configurations for formatting & linting & unit-test.
+## Experimental Results (Single Machine)
 
-## Verifications
-- per commit: pre-commit hook runs formatting and linting.
-- per pull-request: GitHub Actions check formatting, linting, and unit-test results.
+#### Initial Execution Time (w/ warmup)
+`Spent 16.263172149658203 Sec`
 
-## Recommended Repository Settings
-#### Restriction on multi-commit pushes
-`Settings` -> `General` -> `Merge botton` -> `Allow squash merging` ONLY
-<img width="796" src="https://user-images.githubusercontent.com/14961526/152031596-a329a74c-add7-4d1c-ada5-d0279da16195.png">
+#### Best Execution Time (after warmup)
+`Spent 2.18007493019104 Sec`
 
-#### Branch Protection Rules
-`Settings` -> `Branches` -> `Branch protection rules` -> `Add rule`
-- Branch name pattern: `main`
-- Require a pull request before merging & Require approvals
-- Require status checks to pass before merging & Require branches to be up to date before merging
-- Include administrators
+## Experimental Results (Additional Worker)
+
+More Preparation:
+
+```bash
+# In the additional worker Server
+$ export BROKER_URL=redis://api-server-ip:6379
+$ export BACKEND_URL=redis://api-server-ip:6379
+$ make workers
+```
+
+#### Initial Execution Time (w/ warmup)
+`Spent 16.380640029907227 Sec`
+
+#### Best Execution Time (after warmup)
+`Spent 2.186844825744629 Sec`
+
+## Issue Handling
+
+#### Redis Error 8 connecting localhost:6379. nodename nor servname provided, or not known.
+`$ ulimit -n 1024`
