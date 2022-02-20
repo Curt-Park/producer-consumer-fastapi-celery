@@ -15,6 +15,12 @@ class TaskResult(BaseModel):
 app = FastAPI()
 
 
+@app.get("/ping")
+def ping() -> str:
+    """Ping."""
+    return "pong"
+
+
 @app.get("/produce")
 def produce_value() -> TaskResult:
     """Produce an integer value."""
