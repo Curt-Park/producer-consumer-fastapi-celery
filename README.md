@@ -1,45 +1,52 @@
-## Preparation
+# A producer-consumer example with FastAPI and Celery.
+
+## How to play
+
+#### Server (Option 1 - On your Local)
+Install [Redis](https://redis.io/topics/quickstart), and run the following commands:
+
+```bash
+$ make env        # create a conda environment (need only once)
+$ conda activate producer-consumer-fastapi-celery  # activate the env
+$ make setup      # setup packages (need only once)
+$
+$ make broker     # run redis broker
+$ make worker     # run celery worker
+$ make api        # run fastapi server
+$ make dashboard  # run dashboard that monitors celery
+```
+
+#### Server (Option 2 - Docker Compose)
+Install [Docker](https://docs.docker.com/engine/install/) & [Docker Compose](https://docs.docker.com/compose/install/),
+and run the following command:
+
 ```bash
 $ docker-compose up
 ```
 
-## How to play
-
-#### How to Run 1: In WebBrowser
-http://0.0.0.0:8000/produce
-
-#### How to Run 2: test client
-Sending a number of requests simultaneously.
-
-Test Run:
-```bash
-$ python client.py --n-req [N_REQUSTS]
-```
-
-## Experimental Results (Single Machine)
-
-#### Initial Execution Time (w/ warmup)
-`Spent 16.263172149658203 Sec`
-
-#### Best Execution Time (after warmup)
-`Spent 2.18007493019104 Sec`
-
-## Experimental Results (Additional Worker)
-
-More Preparation:
+#### [Optional] Additional Workers
+You can start up additional workers on other devices.
 
 ```bash
-# In the additional worker Server
 $ export BROKER_URL=redis://api-server-ip:6379
 $ export BACKEND_URL=redis://api-server-ip:6379
 $ make workers
 ```
 
-#### Initial Execution Time (w/ warmup)
-`Spent 16.380640029907227 Sec`
+#### Client
 
-#### Best Execution Time (after warmup)
-`Spent 2.186844825744629 Sec`
+#### Option 1: In WebBrowser
+http://0.0.0.0:8000/produce
+
+#### Option 2: Test Client
+Sending a number of requests simultaneously.
+
+```bash
+$ python client.py --n-req [N_REQUSTS]
+```
+
+#### Dashboard for Celery (Flower)
+http://0.0.0.0:5555/
 
 ## Issue Handling
 
