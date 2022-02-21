@@ -1,5 +1,5 @@
 # A producer-consumer example with FastAPI and Celery.
-<img width="841" alt="스크린샷 2022-02-20 오후 11 58 50" src="https://user-images.githubusercontent.com/14961526/154848846-86a855c6-4ccf-4e6f-9ff2-d630519342d7.png">
+<img width="1860" alt="스크린샷 2022-02-21 오전 10 58 53" src="https://user-images.githubusercontent.com/14961526/154876820-52182eab-4295-42e5-960c-19ede6d5fff5.png">
 
 
 ## How to play
