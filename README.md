@@ -57,6 +57,9 @@ http://0.0.0.0:5555/
 #### Redis Error 8 connecting localhost:6379. nodename nor servname provided, or not known.
 `$ ulimit -n 1024`
 
+#### Docker's `network_mode=bridge`degrades the network performance.
+We recommend to use Linux server if you would like to run `docker-compose up`.
+
 ## For Developers
 
 ```bash
