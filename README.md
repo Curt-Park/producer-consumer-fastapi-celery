@@ -56,3 +56,13 @@ http://0.0.0.0:5555/
 
 #### Redis Error 8 connecting localhost:6379. nodename nor servname provided, or not known.
 `$ ulimit -n 1024`
+
+## For Developers
+
+```bash
+$ make setup-dev      # setup for developers
+$ make format         # format scripts
+$ make lint           # lints scripts
+$ make utest          # runs unit tests
+$ make cov            # opens unit test coverage information
+```
